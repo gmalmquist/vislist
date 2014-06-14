@@ -17,10 +17,33 @@
 window.log = function(src, message) {
   var out = $("#output");
   out.html(out.html() + "<br>\n<strong>[" + src + "]</strong> " + message);
-}
+};
+window.debug = function(message) {
+  this.log('DEBUG', message);
+};
 
+// Run unit tests
 var runner = new TestRunner();
 runner.run();
+
+window.say = function(txt) {
+  return function() {
+    debug(txt);
+  };
+};
+
+// Debug stuff that's hard to unit test
+Storage.login('marie', 'weeks')
+  .success(say('Login worked.'))
+  .failure(say('Login failed.'));
+
+Storage.login('narie', 'weeks')
+  .success(say('Login worked when it should not have.'))
+  .failure(say('Login correctly failed.'));
+
+Storage.login('marie', 'waeks')
+  .success(say('Login worked when it should not have.'))
+  .failure(say('Login correctly failed.'));
 </script>
 
 </body>

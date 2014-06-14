@@ -65,14 +65,6 @@ function TestRunner() {
       callback.callback(1, null);
       return result.value;
     }),
-    new Test('Login Test', function() {
-      var result = {'value':'waiting'};
-      Storage.login('marie', 'weeks')
-        .success(function(data) { result.value = true; })
-        .failure(function(data) { result.value = false; });
-
-      return result.value;
-    }),
   ];
 }
 TestRunner.prototype.log = Test.prototype.log;
