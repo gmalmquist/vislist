@@ -31,7 +31,8 @@ Callback.prototype.hasError = function() {
  * what.
  * */
 Callback.prototype.callback = function(data, error) {
-	if (error !== undefined && error.length == 0) {
+	// Empty string counts as pass.
+	if (error !== undefined && error !== null && error.length == 0) {
 		error = undefined;
 	}
 
