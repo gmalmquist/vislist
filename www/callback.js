@@ -4,7 +4,7 @@
  * take in a function to be called when whatever operation behind the callback finishes.
  * */
 function Callback() {
-	this._data = 0;
+	this._data = null;
 	this._done = false;
 	this._error = "";
 
@@ -12,6 +12,16 @@ function Callback() {
 	this._success = function(data) {};
 	this._failure = function(error) {};
 }
+
+/**
+ * Returns true if the callback completed with an error message.
+ * */
+Callback.prototype.hasError = function() {
+	if (!this._done) {
+		return false;
+	}
+	return (this._error !== undefined) && (this._error !== null);
+};
 
 /**
  * Called (usually) by the function which created this callback in the first place, to notify it
@@ -29,7 +39,7 @@ Callback.prototype.callback = function(data, error) {
 	this._error = error;
 	this._done = true;
 
-	if (error === undefined) {
+	if (!this.hasError()) {
 		this._success(data);
 	} else {
 		this._failure(error);
@@ -57,7 +67,7 @@ Callback.prototype.finish = function(func) {
  * */
 Callback.prototype.success = function(func) {
 	this._success = func;
-	if (this._done && this._error === undefined) {
+	if (this._done && !this.hasError()) {
 		func(this._data);
 	}
 	return this;
@@ -69,7 +79,7 @@ Callback.prototype.success = function(func) {
  * */
 Callback.prototype.failure = function(func) {
 	this._failure = func;
-	if (this._done && this._error !== undefined) {
+	if (this._done && this.hasError()) {
 		func(this._error);
 	}
 	return this;
