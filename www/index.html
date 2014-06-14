@@ -1,0 +1,26 @@
+<html>
+<head>
+	<title>VisList (name subject to change)</title>
+	<link rel="stylesheet" type="text/stylesheet" href="main.css"></link>
+	<script language="javascript" type="text/javascript" src="lib/jquery.js"></script>
+	<script language="javascript" type="text/javascript" src="callback.js"></script>
+	<script language="javascript" type="text/javascript" src="storage.js"></script>
+</head>
+<body>
+
+<div id="listsWrap">
+	
+</div>
+
+<script language="javascript" type="text/javascript">
+Storage.login("marie", "weeks").success(function(data) {
+	$("#listsWrap").html("Logged in successfully.");
+});
+
+Storage.getListIds().success(function(data) {
+	$("#listsWrap").html("List Ids: " + data.join(", "));
+});
+</script>
+
+</body>
+</html>
